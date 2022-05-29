@@ -2,10 +2,12 @@ package com.example.nikhil.detectcall;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nikhil.detectcall.Receivers.MyReceiver;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -39,7 +42,12 @@ public class MainActivity extends AppCompatActivity {
     static String emailx;
     static String senderx;
     static String passx;
+    private static MainActivity instance;
+    Context context=this;
 
+    public static MainActivity getInstance() {
+        return instance;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
             // Getting Receiver Email Address From Shared Preference
 
             emailx = sharedpreferences.getString(receiverE, "");
-            Log.d("ReceiversEmail", emailx);
+            Log.d(Constants.TAG,"ReceiversEmail" + emailx);
         }
         if (sharedpreferences.contains(senderE)) {
             sender.setText(sharedpreferences.getString(senderE, ""));
@@ -164,5 +172,15 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
+    MyReceiver myReceiver;
+    public void registerTelephonyReceiver(){
+        final IntentFilter filter=new IntentFilter(TelephonyManager.ACTION_PHONE_STATE_CHANGED);
+        myReceiver=new MyReceiver();
+        context.registerReceiver( myReceiver, filter);
+    }
+    public void unregisterTelephonyReceiver(){
+        if (myReceiver!=null){
+            context.unregisterReceiver(myReceiver);
+        }
+    }
 }

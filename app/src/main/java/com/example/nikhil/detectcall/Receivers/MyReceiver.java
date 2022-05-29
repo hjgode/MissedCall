@@ -10,6 +10,7 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.nikhil.detectcall.Constants;
 import com.example.nikhil.detectcall.MainActivity;
 import com.example.nikhil.detectcall.Services.CallService;
 
@@ -41,9 +42,9 @@ public class MyReceiver extends BroadcastReceiver {
             if (state.equals(TelephonyManager.EXTRA_STATE_RINGING))
             {
                 wasRinging = 1;
-                Log.d("wasRinging",Integer.toString(wasRinging));
-                Log.d("wasPicked",Integer.toString(wasPicked));
-                Log.d("isIdle",Integer.toString(isIdle));
+                Log.d(Constants.TAG,"wasRinging: " + Integer.toString(wasRinging));
+                Log.d(Constants.TAG,"wasPicked: "+Integer.toString(wasPicked));
+                Log.d(Constants.TAG,"isIdle: "+Integer.toString(isIdle));
 
                 Bundle bundle = intent.getExtras();
                 mobileNumber= bundle.getString("incoming_number");
@@ -67,7 +68,7 @@ public class MyReceiver extends BroadcastReceiver {
            Toast.makeText(context,"You didn't pick the call",Toast.LENGTH_LONG).show();
 
 
-                    Log.d("SendingMail","MailSent");
+                    Log.d(Constants.TAG,"SendingMail: " +"MailSent");
 
             Intent i= new Intent(context, CallService.class);
             i.putExtra("num",mobileNumber);
@@ -77,7 +78,8 @@ public class MyReceiver extends BroadcastReceiver {
                 context.startForegroundService(i);
             } else {
                 context.startService(i);
-            }            wasRinging=0;
+            }
+            wasRinging=0;
             wasPicked=0;
             isIdle=0;
         }
