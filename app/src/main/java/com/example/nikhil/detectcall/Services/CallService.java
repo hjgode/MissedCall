@@ -16,6 +16,9 @@ import android.widget.Toast;
 
 import com.example.nikhil.detectcall.Constants;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -94,14 +97,16 @@ public class CallService extends Service {
             final String password = sharedpreferences.getString(Passw, "");
             final String email = sharedpreferences.getString(receiverE, "");
 
+            Calendar calendar=Calendar.getInstance();
+            SimpleDateFormat simpleDateFormat=new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+            String currentTime=simpleDateFormat.format(calendar.getTime());
 
-            String subject = "Missed Call Alert";
-            String message = "Hey You have got a missed call from : " + number;
-
+            String subject = "Verpasster ANRUF";
+            String message = "Verpasster Anruf: " + number + " um " + currentTime;
 
             //Creating properties
             Properties props = new Properties();
-            Log.d(Constants.TAG, "bossdo");
+            Log.d(Constants.TAG, "building mail...");
 
 
             //Configuring properties for gmail
@@ -127,20 +132,16 @@ public class CallService extends Service {
                 //Creating MimeMessage object
                 MimeMessage mm = new MimeMessage(session);
 
-
                 //Setting sender address
-
                 mm.setFrom(new InternetAddress(senderEmail));
 
                 //Adding receiver Email Address
-
                 mm.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
 
                 //Adding subject
                 mm.setSubject(subject);
 
                 //Adding message
-
                 mm.setText(message);
 
                 //Sending email
