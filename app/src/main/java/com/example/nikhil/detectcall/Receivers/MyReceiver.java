@@ -3,6 +3,7 @@ package com.example.nikhil.detectcall.Receivers;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.telephony.TelephonyManager;
@@ -71,8 +72,12 @@ public class MyReceiver extends BroadcastReceiver {
             Intent i= new Intent(context, CallService.class);
             i.putExtra("num",mobileNumber);
 
-            context.startService(i);
-            wasRinging=0;
+//HGO            context.startService(i);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                context.startForegroundService(i);
+            } else {
+                context.startService(i);
+            }            wasRinging=0;
             wasPicked=0;
             isIdle=0;
         }

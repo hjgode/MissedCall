@@ -10,9 +10,9 @@
         android:id="@+id/SenderEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/ReceiverEmail"
         android:layout_below="@+id/tv"
-        android:layout_marginTop="49dp"
+        android:layout_alignStart="@+id/ReceiverEmail"
+        android:layout_marginTop="26dp"
         android:hint="Sender Email" />
 
     <EditText
@@ -21,9 +21,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/SenderEmail"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="71dp"
+        android:layout_marginTop="26dp"
         android:hint="Password"
-        android:inputType="textPassword"/>
+        android:inputType="textPassword" />
 
     <EditText
         android:id="@+id/ReceiverEmail"
@@ -31,24 +31,27 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/Email_Password"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="54dp"
+        android:layout_marginTop="52dp"
         android:hint="Receiver Email" />
 
     <EditText
         android:id="@+id/Mpin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/tv"
+        android:layout_below="@+id/ReceiverEmail"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="46dp"
         android:hint="Please Set Your Pin" />
 
     <Button
         android:id="@+id/Btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/Mpin"
         android:layout_alignEnd="@+id/Email_Password"
-        android:layout_below="@+id/ReceiverEmail"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="25dp"
+        android:layout_centerHorizontal="true"
+
         android:text="Save" />
 
     <TextView
@@ -57,9 +60,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="53dp"
-        android:textSize="18dp"
-        android:textStyle="bold" />
+        android:layout_marginTop="26dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:text="..."
+        />
 
 
 </RelativeLayout>

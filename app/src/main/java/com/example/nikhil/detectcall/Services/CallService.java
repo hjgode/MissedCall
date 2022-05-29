@@ -1,9 +1,11 @@
 package com.example.nikhil.detectcall.Services;
 
+import android.app.Notification;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -12,11 +14,14 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.nikhil.detectcall.Constants;
+
 import java.util.Properties;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
+import javax.mail.SendFailedException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -39,6 +44,13 @@ public class CallService extends Service {
         return null;
     }
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForeground(1,new Notification());
+        }
+    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -89,7 +101,7 @@ public class CallService extends Service {
 
             //Creating properties
             Properties props = new Properties();
-            Log.d("servicex", "bossdo");
+            Log.d(Constants.TAG, "bossdo");
 
 
             //Configuring properties for gmail
@@ -110,7 +122,7 @@ public class CallService extends Service {
 
                         }
                     });
-
+            Log.d(Constants.TAG, "SendMail: Session is "+session.toString());
             try {
                 //Creating MimeMessage object
                 MimeMessage mm = new MimeMessage(session);
@@ -128,13 +140,16 @@ public class CallService extends Service {
                 mm.setSubject(subject);
 
                 //Adding message
+
                 mm.setText(message);
 
                 //Sending email
                 Transport.send(mm);
 
+            } catch (SendFailedException e){
+                Log.d(Constants.TAG, "SendFailedException: " +e.getMessage());
             } catch (MessagingException e) {
-                e.printStackTrace();
+                Log.d(Constants.TAG, "MessagingException: " + e.getMessage());
             }
         }
     }
